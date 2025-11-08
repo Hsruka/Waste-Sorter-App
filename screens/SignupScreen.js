@@ -84,7 +84,7 @@ export default function SignupScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e3f6f5', // เปลี่ยนสีพื้นหลัง
+    backgroundColor: '#748c6b', // เปลี่ยนสีพื้นหลัง
   },
   innerContainer: {
     flex: 1,

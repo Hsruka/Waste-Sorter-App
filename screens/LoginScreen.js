@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     marginBottom: 20,
-    tintColor: '#DDE0C8' // เปลี่ยนสีโลโก้เป็นสีเบจ
   },
   title: { 
     fontSize: 28, 

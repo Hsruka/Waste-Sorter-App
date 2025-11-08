@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Image,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  StatusBar
 } from 'react-native';
 import API from '../api';
 
@@ -37,12 +38,13 @@ export default function SignupScreen({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
+      <StatusBar barStyle="light-content" />
       <View style={styles.innerContainer}>
         <Image 
           source={require('../assets/trash.png')}
           style={styles.logo}
         />
-        <Text style={styles.title}>สมัครสมาชิก</Text>
+        <Text style={styles.title}>สร้างบัญชีใหม่</Text>
 
         <View style={styles.card}>
           <TextInput
@@ -51,6 +53,7 @@ export default function SignupScreen({ navigation }) {
             value={username}
             onChangeText={setUsername}
             autoCapitalize="none"
+            placeholderTextColor="#999"
           />
           <TextInput
             style={styles.input}
@@ -59,6 +62,7 @@ export default function SignupScreen({ navigation }) {
             onChangeText={setEmail}
             autoCapitalize="none"
             keyboardType="email-address"
+            placeholderTextColor="#999"
           />
           <TextInput
             style={styles.input}
@@ -66,9 +70,10 @@ export default function SignupScreen({ navigation }) {
             secureTextEntry
             value={password}
             onChangeText={setPassword}
+            placeholderTextColor="#999"
           />
 
-          <TouchableOpacity style={styles.button} onPress={handleSignup} disabled={loading}>
+          <TouchableOpacity style={styles.button} onPress={handleSignup} disabled={loading} activeOpacity={0.8}>
             <Text style={styles.buttonText}>{loading ? 'กำลังสมัคร...' : 'สมัครสมาชิก'}</Text>
           </TouchableOpacity>
         </View>
@@ -84,7 +89,7 @@ export default function SignupScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#748c6b', // เปลี่ยนสีพื้นหลัง
+    backgroundColor: '#748c6b', // สีพื้นหลังของคุณ
   },
   innerContainer: {
     flex: 1,
@@ -95,17 +100,18 @@ const styles = StyleSheet.create({
   logo: {
     width: 120,
     height: 120,
-    marginBottom: 30
+    marginBottom: 20,
+    tintColor: '#DDE0C8' // เปลี่ยนสีโลโก้เป็นสีเบจ
   },
   title: { 
     fontSize: 28, 
     fontWeight: 'bold', 
-    marginBottom: 20, 
-    color: '#198754' 
+    marginBottom: 25, 
+    color: '#DDE0C8' // เปลี่ยนสีไตเติ้ลเป็นสีเบจ
   },
   card: {
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // ทำให้การ์ดโปร่งใสเล็กน้อย
     borderRadius: 15,
     padding: 20,
     shadowColor: "#000",
@@ -116,28 +122,30 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
+    fontSize: 16,
     borderWidth: 1,
     borderColor: '#ddd',
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#fff',
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#3A3F35', // เปลี่ยนเป็นสีเขียวเข้มจากโลโก้
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 10,
   },
   buttonText: { 
-    color: '#fff', 
+    color: '#DDE0C8', // เปลี่ยนสีตัวอักษรปุ่มเป็นสีเบจ
     fontWeight: 'bold', 
     fontSize: 16 
   },
   link: { 
-    color: '#4CAF50', 
+    color: '#DDE0C8', // เปลี่ยนสีลิงก์เป็นสีเบจ
     fontWeight: '600',
     marginTop: 10,
+    fontSize: 16,
   },
 });

@@ -40,7 +40,7 @@ export default function SettingScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, backgroundColor: "#e3f6f5", alignItems: "center" },
+  container: { flex: 1, padding: 24, backgroundColor: "#F7FDFB", alignItems: "center" },
   profileBox: { alignItems: "center", marginTop: 60, marginBottom: 30 },
   avatarIcon: {
     width: 90,

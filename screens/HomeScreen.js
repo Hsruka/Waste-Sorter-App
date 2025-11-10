@@ -36,7 +36,7 @@ export default function HomeScreen({ navigation }) {
       
       <View style={styles.headerContainer}>
         <Image 
-          source={require("../assets/logo.png")} //
+          source={require("../assets/logo_symbol.png")}
           style={styles.headerImage} 
         />
         <Text style={styles.headerTitle}>สวัสดี!</Text>
@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerImage: {
-    width: 80,
-    height: 80,
+    width: 140,
+    height: 140,
     resizeMode: 'contain',
     marginBottom: 15,
   },

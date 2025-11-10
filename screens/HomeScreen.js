@@ -5,22 +5,22 @@ import { Ionicons } from '@expo/vector-icons';
 const trashTypes = [
   { 
     name: "Recycle", 
-    image: require("../assets/recycle.png"),
+    image: require("../assets/recycle.png"), //
     info: "ใช้สำหรับ ขวดพลาสติก, กระป๋อง, กระดาษแข็ง, แก้ว" 
   },
   { 
     name: "Organic", 
-    image: require("../assets/organic.png"),
+    image: require("../assets/organic.png"), //
     info: "ใช้สำหรับ เศษอาหาร, เศษผักผลไม้, ของเหลือจากครัว" 
   },
   { 
     name: "General", 
-    image: require("../assets/general.png"),
+    image: require("../assets/general.png"), //
     info: "ใช้สำหรับ ขยะที่ไม่สามารถรีไซเคิลได้ เช่น ซองขนม, กล่องโฟม" 
   },
   { 
     name: "Hazardous", 
-    image: require("../assets/hazard.png"),
+    image: require("../assets/hazard.png"), //
     info: "ใช้สำหรับ ขยะอันตราย เช่น ถ่านไฟฉาย, หลอดไฟ, สารเคมี" 
   },
 ];
@@ -29,11 +29,22 @@ export default function HomeScreen({ navigation }) {
   const [selectedTrash, setSelectedTrash] = useState(null);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView 
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       
-      {/* 1. ย้าย Title มาไว้บนสุด */}
-      <Text style={styles.title}>4 Types of Waste</Text>
+      <View style={styles.headerContainer}>
+        <Image 
+          source={require("../assets/logo.png")} //
+          style={styles.headerImage} 
+        />
+        <Text style={styles.headerTitle}>สวัสดี!</Text>
+        <Text style={styles.headerSubtitle}>มาร่วมกันคัดแยกขยะเพื่อโลกของเรา</Text>
+      </View>
 
+      <Text style={styles.sectionTitle}>Waste Types</Text>
+      
       <View style={styles.trashTypes}>
         {trashTypes.map((t, i) => (
           <TouchableOpacity
@@ -45,7 +56,10 @@ export default function HomeScreen({ navigation }) {
             onPress={() => setSelectedTrash(selectedTrash?.name === t.name ? null : t)}
             activeOpacity={0.8}
           >
-            <Image source={t.image} style={styles.trashImage} />
+            <Image 
+              source={t.image} 
+              style={styles.trashImage} 
+            />
             <Text style={styles.trashText}>{t.name}</Text>
           </TouchableOpacity>
         ))}
@@ -58,18 +72,13 @@ export default function HomeScreen({ navigation }) {
         </View>
       )}
 
-      {/* 2. ย้ายปุ่ม "คัดแยกขยะ" มาไว้ด้านล่างนี้ */}
       <TouchableOpacity
-        style={styles.classifyCard}
+        style={styles.scanButton}
         onPress={() => navigation.navigate('Classify')}
-        activeOpacity={0.85}
+        activeOpacity={0.8}
       >
-        <Image source={require("../assets/trash.png")} style={styles.classifyCardImage} />
-        <View style={styles.classifyCardTextBox}>
-          <Text style={styles.classifyCardTitle}>คัดแยกขยะ</Text>
-          <Text style={styles.classifyCardText}>คัดแยกขยะที่คุณต้องการด้วยรูปภาพ</Text>
-        </View>
-        <Ionicons name="chevron-forward" size={24} color="#198754" /> 
+        <Ionicons name="scan" size={24} color="#fff" style={styles.scanButtonIcon} />
+        <Text style={styles.scanButtonText}>Scan Waste</Text>
       </TouchableOpacity>
 
     </ScrollView>
@@ -78,65 +87,89 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
+    backgroundColor: "#F7FDFB", 
+  },
+  contentContainer: {
     padding: 20,
-    backgroundColor: "#e3f6f5",
     alignItems: "center",
   },
-  // 3. อัปเดต Style ของ Title (เพิ่ม marginTop กลับมา)
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    marginTop: 70, // เพิ่มระยะห่างจากขอบบน
-    marginBottom: 30,
-    textAlign: "center",
-    color: "#198754",
-    letterSpacing: 1,
+  headerContainer: {
+    alignItems: 'center',
+    marginTop: 60,
+    marginBottom: 20,
   },
+  headerImage: {
+    width: 80,
+    height: 80,
+    resizeMode: 'contain',
+    marginBottom: 15,
+  },
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#0A3B20',
+  },
+  headerSubtitle: {
+    fontSize: 16,
+    color: '#555',
+    marginTop: 5,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#0A3B20',
+    alignSelf: 'flex-start',
+    marginBottom: 20,
+  },
+  
   trashTypes: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 25,
     width: "100%",
+    marginBottom: 15,
   },
   trashCard: {
-    width: "47%",
-    backgroundColor: "#fff",
+    width: "48%", 
+    height: 160,
+    backgroundColor: '#fff',
     borderRadius: 20,
-    paddingVertical: 22,
-    marginBottom: 18,
-    alignItems: "center",
+    padding: 15,
+    marginBottom: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: "#198754",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.13,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 6,
+    elevation: 5,
     borderWidth: 2,
-    borderColor: "transparent",
+    borderColor: 'transparent',
   },
   trashCardSelected: {
     borderColor: "#198754",
     backgroundColor: "#e9fbe5",
   },
   trashImage: {
-    width: 65,
-    height: 65,
-    marginBottom: 10,
+    width: 70,
+    height: 70, 
+    marginBottom: 15,
     resizeMode: "contain",
   },
   trashText: {
     fontSize: 17,
     fontWeight: "700",
     color: "#198754",
-    letterSpacing: 0.5,
   },
+
+  // 7. Style กล่องข้อมูล
   infoBox: {
     backgroundColor: "#fffbe7",
     padding: 18,
     borderRadius: 18,
-    marginBottom: 25,
     width: "100%",
+    marginBottom: 30,
     shadowColor: "#fbc02d",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.09,
@@ -154,39 +187,28 @@ const styles = StyleSheet.create({
     color: "#555",
     lineHeight: 22,
   },
-  // 4. อัปเดต Style ของปุ่ม (เปลี่ยน margin)
-  classifyCard: {
-    width: '100%',
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    padding: 20,
+
+  scanButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 0, // ลบระยะห่างด้านบน
-    marginBottom: 30, // เพิ่มระยะห่างด้านล่าง
+    justifyContent: 'center',
+    backgroundColor: '#198754', 
+    paddingVertical: 18,
+    width: '100%',
+    borderRadius: 30,
     shadowColor: "#198754",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 8,
   },
-  classifyCardImage: {
-    width: 50,
-    height: 50,
-    marginRight: 15,
-    resizeMode: 'contain',
+  scanButtonIcon: {
+    marginRight: 10,
   },
-  classifyCardTextBox: {
-    flex: 1, 
-  },
-  classifyCardTitle: {
+  scanButtonText: {
+    color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#198754',
-    marginBottom: 3,
-  },
-  classifyCardText: {
-    fontSize: 14,
-    color: '#555',
+    letterSpacing: 0.5,
   },
 });

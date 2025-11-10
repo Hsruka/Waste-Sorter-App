@@ -16,7 +16,6 @@ export default function SettingScreen() {
     ]);
   };
 
-  // ดึงข้อมูล username และ email จาก object ที่ซ้อนอยู่
   const userInfo = user?.user;
 
   return (
@@ -24,13 +23,10 @@ export default function SettingScreen() {
       <View style={styles.profileBox}>
         <View style={styles.avatarIcon}>
           <Text style={styles.avatarIconText}>
-            {/* แก้ไขเป็น userInfo?.username */}
             {userInfo?.username ? userInfo.username[0].toUpperCase() : "G"}
           </Text>
         </View>
-        {/* แก้ไขเป็น userInfo?.username */}
         <Text style={styles.username}>{userInfo?.username || "Guest"}</Text>
-        {/* แก้ไขเป็น userInfo?.email */}
         <Text style={styles.email}>{userInfo?.email || "No email provided"}</Text>
       </View>
 

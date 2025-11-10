@@ -8,7 +8,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
-  StatusBar // 1. Import StatusBar
+  StatusBar
 } from 'react-native';
 import API from '../api';
 import { AuthContext } from '../AuthContext';
@@ -43,11 +43,10 @@ export default function LoginScreen({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      {/* 2. เพิ่ม StatusBar เพื่อให้ตัวหนังสือ (เวลา, แบต) เป็นสีสว่าง */}
       <StatusBar barStyle="light-content" />
       <View style={styles.innerContainer}>
         <Image 
-          source={require('../assets/trash.png')}
+          source={require('../assets/logo.png')}
           style={styles.logo}
         />
         <Text style={styles.title}>ยินดีต้อนรับ</Text>
@@ -60,7 +59,7 @@ export default function LoginScreen({ navigation }) {
             onChangeText={setEmail}
             autoCapitalize="none"
             keyboardType="email-address"
-            placeholderTextColor="#999" // 3. เพิ่มสีให้ placeholder
+            placeholderTextColor="#999"
           />
           <TextInput
             style={styles.input}
@@ -68,7 +67,7 @@ export default function LoginScreen({ navigation }) {
             secureTextEntry
             value={password}
             onChangeText={setPassword}
-            placeholderTextColor="#999" // 3. เพิ่มสีให้ placeholder
+            placeholderTextColor="#999"
           />
 
           <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading} activeOpacity={0.8}>
@@ -89,7 +88,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#748c6b', // สีพื้นหลังของคุณ
+    backgroundColor: '#748c6b',
   },
   innerContainer: {
     flex: 1,
@@ -101,17 +100,16 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     marginBottom: 20,
-    // ไม่ต้อง tint สี เพราะโลโก้ใหม่มีสีในตัวแล้ว
   },
   title: { 
     fontSize: 28, 
     fontWeight: 'bold', 
     marginBottom: 25, 
-    color: '#DDE0C8' // 4. เปลี่ยนเป็นสีเบจ
+    color: '#DDE0C8'
   },
   card: {
     width: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', // 5. ทำให้การ์ดโปร่งใสเล็กน้อย
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 15,
     padding: 20,
     shadowColor: "#000",
@@ -128,22 +126,22 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
-    backgroundColor: '#fff', // 6. เปลี่ยนเป็นสีขาว
+    backgroundColor: '#fff',
   },
   button: {
-    backgroundColor: '#3A3F35', // 7. เปลี่ยนเป็นสีเขียวเข้ม
+    backgroundColor: '#3A3F35',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 10,
   },
   buttonText: { 
-    color: '#DDE0C8', // 8. เปลี่ยนเป็นสีเบจ
+    color: '#DDE0C8',
     fontWeight: 'bold', 
     fontSize: 16 
   },
   link: { 
-    color: '#DDE0C8', // 9. เปลี่ยนเป็นสีเบจ
+    color: '#DDE0C8',
     fontWeight: '600',
     marginTop: 10,
     fontSize: 16,

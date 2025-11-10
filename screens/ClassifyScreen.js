@@ -3,8 +3,15 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Platform }
 import * as ImagePicker from "expo-image-picker";
 import { AuthContext } from "../AuthContext";
 import API from "../api";
+import { Ionicons } from '@expo/vector-icons';
 
-// หน้านี้จะรับผิดชอบการเลือก/ถ่ายภาพ และการวิเคราะห์ผล
+const trashImages = {
+  Recycle: require("../assets/recycle.png"), 
+  Organic: require("../assets/organic.png"), 
+  General: require("../assets/general.png"), 
+  Hazardous: require("../assets/hazard.png"), 
+};
+
 export default function ClassifyScreen() {
   const [image, setImage] = useState(null);
   const [result, setResult] = useState("");
@@ -71,59 +78,71 @@ export default function ClassifyScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+
       <View style={styles.imageContainer}>
         {image ? (
           <Image source={{ uri: image }} style={styles.image} />
         ) : (
           <View style={styles.placeholder}>
-            <Text style={{ color: "#aaa" }}>No pictures</Text>
+            <Ionicons name="image-outline" size={80} color="#c0e0d0" />
+            <Text style={styles.placeholderText}>No picture</Text>
           </View>
         )}
       </View>
 
       {result ? (
         <View style={styles.resultBox}>
-          <Text style={styles.resultText}>Results: {result}</Text>
+          {trashImages[result] && (
+            <Image 
+              source={trashImages[result]}
+              style={styles.resultImage}
+            />
+          )}
+          <Text style={styles.resultText}>
+            {result === "กำลังวิเคราะห์..." || result === "ไม่สามารถวิเคราะห์ได้"
+              ? result
+              : `Results: ${result}`}
+          </Text>
         </View>
       ) : null}
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={[styles.button, styles.cameraButton]}
+          style={styles.buttonSolid} 
           onPress={takePhoto}
           activeOpacity={0.85}
         >
-          <Text style={styles.buttonText}>📷 Take Photo</Text>
+          <Ionicons name="camera" size={20} color="#fff" style={styles.buttonIcon} />
+          <Text style={styles.buttonSolidText}>Take Photo</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, styles.galleryButton]}
+          style={styles.buttonOutline} 
           onPress={pickImage}
           activeOpacity={0.85}
         >
-          <Text style={styles.buttonText}>🖼️ Choose Photo</Text>
+          <Ionicons name="images" size={20} color="#198754" style={styles.buttonIcon} />
+          <Text style={styles.buttonOutlineText}>Upload from Gallery</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
 
-// นำ Styles ที่เกี่ยวข้องมาจาก HomeScreen
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: "#e3f6f5",
+    backgroundColor: "#F7FDFB", 
     alignItems: "center",
-    paddingTop: 30, // เพิ่มช่องว่างด้านบน
   },
   imageContainer: {
     width: "100%",
-    height: 300, // เพิ่มความสูง
-    marginBottom: 22,
+    height: 300, 
+    marginBottom: 25,
     borderRadius: 20,
     overflow: "hidden",
-    backgroundColor: "#f6f6f6",
-    borderWidth: 1.5,
+    backgroundColor: "#EDFBF5", 
+    borderWidth: 2,
     borderColor: "#d0ece7",
   },
   image: {
@@ -133,58 +152,79 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     flex: 1,
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: "#ddd",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fafafa",
+  },
+  placeholderText: {
+    color: "#aaa",
+    fontSize: 16,
+    marginTop: 10,
   },
   resultBox: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
     padding: 16,
     backgroundColor: "#d1f7c4",
     borderRadius: 15,
-    marginBottom: 22,
-    alignItems: "center",
+    marginBottom: 25,
     width: "100%",
     shadowColor: "#198754",
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
   },
+  resultImage: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+    marginRight: 15, 
+  },
   resultText: {
     fontSize: 19,
     fontWeight: "bold",
     color: "#198754",
+    flexShrink: 1, 
   },
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     width: "100%",
     marginTop: 5,
-    marginBottom: 30,
   },
-  button: {
-    flex: 1,
-    marginHorizontal: 8,
+  buttonSolid: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#198754',
     paddingVertical: 16,
     borderRadius: 30,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.13,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowColor: "#198754",
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+    marginBottom: 15, 
   },
-  cameraButton: {
-    backgroundColor: "#43b581",
-  },
-  galleryButton: {
-    backgroundColor: "#3b82f6",
-  },
-  buttonText: {
+  buttonSolidText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 17,
     letterSpacing: 0.5,
   },
+  buttonOutline: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    paddingVertical: 14, 
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#198754',
+  },
+  buttonOutlineText: {
+    color: "#198754",
+    fontWeight: "bold",
+    fontSize: 17,
+    letterSpacing: 0.5,
+  },
+  buttonIcon: {
+    marginRight: 10,
+  }
 });

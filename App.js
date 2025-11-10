@@ -14,9 +14,7 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       try {
-        // 4. (ไม่จำเป็น) โหลด Fonts หรือ Assets อื่นๆ ที่นี่
-        // await Font.loadAsync(...);
-        // await new Promise(resolve => setTimeout(resolve, 2000)); // จำลองการโหลด 2 วินาที
+        await new Promise(resolve => setTimeout(resolve, 2000)); // จำลองการโหลด 2 วินาที
 
       } catch (e) {
         console.warn(e);
@@ -30,13 +28,12 @@ export default function App() {
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
-      // 5. ซ่อน Splash Screen เมื่อแอปพร้อม
       await SplashScreen.hideAsync();
     }
   }, [appIsReady]);
 
   if (!appIsReady) {
-    return null; // หรือจะส่งคืน View เปล่าๆ ก็ได้
+    return null;
   }
 
   return (
@@ -44,7 +41,6 @@ export default function App() {
       <AuthProvider>
         <MainNavigator />
       </AuthProvider>
-      <StatusBar style="auto" />
     </View>
   );
 };

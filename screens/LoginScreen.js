@@ -46,7 +46,7 @@ export default function LoginScreen({ navigation }) {
       <StatusBar barStyle="light-content" />
       <View style={styles.innerContainer}>
         <Image 
-          source={require('../assets/logo.png')}
+          source={require('../assets/logo_symbol.png')}
           style={styles.logo}
         />
         <Text style={styles.title}>ยินดีต้อนรับ</Text>

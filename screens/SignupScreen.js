@@ -42,7 +42,7 @@ export default function SignupScreen({ navigation }) {
       <StatusBar barStyle="light-content" />
       <View style={styles.innerContainer}>
         <Image 
-          source={require('../assets/logo.png')}
+          source={require('../assets/logo_symbol.png')}
           style={styles.logo}
         />
         <Text style={styles.title}>สร้างบัญชีใหม่</Text>

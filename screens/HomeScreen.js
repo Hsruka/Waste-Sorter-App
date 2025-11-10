@@ -107,7 +107,7 @@ export default function HomeScreen() {
               styles.trashCard,
               selectedTrash?.name === t.name && styles.trashCardSelected,
             ]}
-            onPress={() => setSelectedTrash(t)}
+            onPress={() => setSelectedTrash(selectedTrash?.name === t.name ? null : t)} // <--- อัปเดตตรงนี้
             activeOpacity={0.8}
           >
             <Image source={t.image} style={styles.trashImage} />

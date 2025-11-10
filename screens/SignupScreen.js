@@ -38,7 +38,6 @@ export default function SignupScreen({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      {/* 2. เพิ่ม StatusBar */}
       <StatusBar barStyle="light-content" />
       <View style={styles.innerContainer}>
         <Image 
@@ -102,7 +101,6 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     marginBottom: 20,
-    // ไม่ต้อง tint สี
   },
   title: { 
     fontSize: 28, 

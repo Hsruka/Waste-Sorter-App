@@ -10,6 +10,7 @@ import HistoryScreen from "./screens/HistoryScreen";
 import SettingScreen from "./screens/SettingScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import ClassifyScreen from "./screens/ClassifyScreen"; // 1. Import หน้าใหม่
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,13 +52,30 @@ export default function MainNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* 2. แก้ไข Stack.Navigator หลักที่นี่ */}
+      <Stack.Navigator>
         {user ? (
-          <Stack.Screen name="Main" component={MainTabs} />
+          <>
+            <Stack.Screen 
+              name="Main" 
+              component={MainTabs} 
+              options={{ headerShown: false }} // ซ่อน Header ของหน้า Tab หลัก
+            />
+            <Stack.Screen 
+              name="Classify" 
+              component={ClassifyScreen} 
+              options={{
+                // 3. ตั้งค่า Header ให้แสดงผลตามตัวอย่าง
+                headerShown: true, 
+                title: 'คัดแยกขยะด้วยรูปภาพ',
+                headerBackTitle: 'กลับ', // ข้อความปุ่มย้อนกลับ (สำหรับ iOS)
+              }}
+            />
+          </>
         ) : (
           <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
           </>
         )}
       </Stack.Navigator>

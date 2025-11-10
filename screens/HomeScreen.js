@@ -1,6 +1,5 @@
-import React, { useState } from "react"; // 1. ลบ useContext, ImagePicker, API, Platform
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-// (AuthContext และ API ไม่จำเป็นต้องใช้ในหน้านี้แล้ว)
 
 const trashTypes = [
   { 
@@ -25,21 +24,14 @@ const trashTypes = [
   },
 ];
 
-// 2. รับ prop "navigation" เข้ามา
 export default function HomeScreen({ navigation }) {
-  // 3. ลบ useState ของ image และ result
   const [selectedTrash, setSelectedTrash] = useState(null);
-  // 4. ลบ useContext ของ user
-
-  // 5. ลบฟังก์ชัน pickImage, takePhoto, classifyImage ทั้งหมด
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       
-      {/* 6. เพิ่มปุ่มใหม่ (Classify Card) ตรงนี้ */}
       <TouchableOpacity
         style={styles.classifyCard}
-        // 7. ตั้งค่า onPress ให้นำทาง (navigate) ไปยังหน้า 'Classify' (ที่ตั้งชื่อไว้ใน MainNavigator.js)
         onPress={() => navigation.navigate('Classify')}
         activeOpacity={0.85}
       >
@@ -77,8 +69,6 @@ export default function HomeScreen({ navigation }) {
         </View>
       )}
 
-      {/* 8. ลบ View ของ imageContainer, resultBox, และ buttonContainer ออกจากหน้านี้ */}
-
     </ScrollView>
   );
 }
@@ -90,7 +80,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#e3f6f5",
     alignItems: "center",
   },
-  // 9. เพิ่ม Style สำหรับปุ่มใหม่ (Classify Card)
   classifyCard: {
     width: '100%',
     backgroundColor: '#ffffff',
@@ -197,5 +186,4 @@ const styles = StyleSheet.create({
     color: "#555",
     lineHeight: 22,
   },
-  // 10. ลบ styles ของ imageContainer, image, placeholder, resultBox, resultText, buttonContainer, button, cameraButton, galleryButton, buttonText
 });

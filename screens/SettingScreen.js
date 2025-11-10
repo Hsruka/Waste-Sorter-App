@@ -1,76 +1,159 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from "react-native";
+import { Ionicons } from '@expo/vector-icons'; // 1. ต้องใช้ Ionicons
 import { AuthContext } from "../AuthContext";
 
 export default function SettingScreen() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext); 
 
   const handleLogout = () => {
-    Alert.alert("ออกจากระบบ", "คุณต้องการออกจากระบบหรือไม่?", [
-      { text: "ยกเลิก", style: "cancel" },
+    Alert.alert("Logout", "Do you want to logout?", [
+      { text: "cancle", style: "cancel" },
       {
-        text: "ออกจากระบบ",
+        text: "Logout",
         style: "destructive",
-        onPress: () => setUser(null),
+        onPress: () => setUser(null), 
       },
     ]);
   };
 
-  const userInfo = user?.user;
+  const userInfo = user?.user; 
 
   return (
-    <View style={styles.container}>
-      <View style={styles.profileBox}>
-        <View style={styles.avatarIcon}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Setting</Text>
+      </View>
+
+      {/* Profile Card (เหมือนเดิม) */}
+      <View style={styles.profileCard}>
+        <View style={styles.avatar}>
           <Text style={styles.avatarIconText}>
             {userInfo?.username ? userInfo.username[0].toUpperCase() : "G"}
           </Text>
         </View>
-        <Text style={styles.username}>{userInfo?.username || "Guest"}</Text>
-        <Text style={styles.email}>{userInfo?.email || "No email provided"}</Text>
+        <View style={styles.profileTextContainer}>
+          <Text style={styles.profileName}>{userInfo?.username || "Guest"}</Text>
+          <Text style={styles.profileEmail}>{userInfo?.email || "No email provided"}</Text>
+        </View>
       </View>
 
-      <View style={styles.card}>
-        <TouchableOpacity style={styles.logoutButton} activeOpacity={0.8} onPress={handleLogout}>
-          <Text style={styles.logoutButtonText}>🚪 Logout</Text>
+      {/* Logout Button (อัปเดต) */}
+      <View style={styles.menuCard}>
+        <TouchableOpacity 
+          style={styles.menuItem} // 2. Style menuItem ถูกอัปเดต
+          activeOpacity={0.7} 
+          onPress={handleLogout}
+        >
+          {/* 3. ไอคอนซ้าย */}
+          <View style={styles.menuIcon}>
+            <Ionicons name="log-out-outline" size={22} color="#D9534F" />
+          </View>
+          {/* 4. ข้อความ (Style menuItemText ถูกอัปเดต) */}
+          <Text style={[styles.menuItemText, styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
       </View>
-    </View>
+
+    </ScrollView>
   );
 }
 
+// 5. อัปเดต Styles
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, backgroundColor: "#F7FDFB", alignItems: "center" },
-  profileBox: { alignItems: "center", marginTop: 60, marginBottom: 30 },
-  avatarIcon: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    backgroundColor: "#d1f7c4",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 12,
+  container: { 
+    flex: 1, 
+    backgroundColor: "#F7FDFB", 
   },
-  avatarIconText: { fontSize: 48, fontWeight: "bold", color: "#198754" },
-  username: { fontSize: 22, fontWeight: "bold", color: "#333" },
-  email: { fontSize: 16, color: "#777", marginTop: 4 },
-  card: {
+  contentContainer: {
+    padding: 24,
+    alignItems: "center"
+  },
+  header: {
+    width: '100%',
+    paddingTop: 40,
+    paddingBottom: 10,
+    marginBottom: 10,
+    alignSelf: 'flex-start',
+  },
+  headerTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#0A3B20',
+  },
+  profileCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    width: '100%',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginBottom: 25,
+    shadowColor: "#198754",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#E8F5E9',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  avatarIconText: { 
+    fontSize: 30, 
+    fontWeight: "bold", 
+    color: "#198754" 
+  },
+  profileTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  profileName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  profileEmail: {
+    fontSize: 14,
+    color: '#777',
+    marginTop: 2,
+  },
+  menuCard: {
     width: "100%",
     backgroundColor: "#fff",
-    borderRadius: 18,
-    padding: 28,
-    alignItems: "center",
+    borderRadius: 15, 
     shadowColor: "#198754",
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
+    overflow: 'hidden', 
   },
-  logoutButton: {
-    backgroundColor: "#e74c3c",
-    paddingVertical: 14,
-    paddingHorizontal: 36,
-    borderRadius: 30,
-    alignItems: "center",
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    justifyContent: 'center', // 6. จัดกลุ่ม (ไอคอน+ข้อความ) ให้อยู่ตรงกลาง
   },
-  logoutButtonText: { color: "#fff", fontWeight: "bold", fontSize: 17 },
+  menuIcon: {
+    // 7. ลบ width: 30 ออก
+    alignItems: 'center',
+  },
+  menuItemText: {
+    // 8. ลบ flex: 1 ออก
+    fontSize: 17,
+    color: '#444',
+    marginLeft: 15, // 9. ยังคงเว้นระยะห่างจากไอคอน
+  },
+  logoutText: {
+    color: '#D9534F', 
+    fontWeight: '600',
+  },
 });

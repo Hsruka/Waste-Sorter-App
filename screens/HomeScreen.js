@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; 
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { Ionicons } from '@expo/vector-icons'; 
 
 const trashTypes = [
   { 
@@ -30,19 +31,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       
-      <TouchableOpacity
-        style={styles.classifyCard}
-        onPress={() => navigation.navigate('Classify')}
-        activeOpacity={0.85}
-      >
-        <Image source={require("../assets/trash.png")} style={styles.classifyCardImage} />
-        <View style={styles.classifyCardTextBox}>
-          <Text style={styles.classifyCardTitle}>คัดแยกขยะ</Text>
-          <Text style={styles.classifyCardText}>คัดแยกขยะที่คุณต้องการด้วยรูปภาพ</Text>
-        </View>
-        <Ionicons name="chevron-forward" size={24} color="#198754" />
-      </TouchableOpacity>
-
+      {/* 1. ย้าย Title มาไว้บนสุด */}
       <Text style={styles.title}>4 Types of Waste</Text>
 
       <View style={styles.trashTypes}>
@@ -69,6 +58,20 @@ export default function HomeScreen({ navigation }) {
         </View>
       )}
 
+      {/* 2. ย้ายปุ่ม "คัดแยกขยะ" มาไว้ด้านล่างนี้ */}
+      <TouchableOpacity
+        style={styles.classifyCard}
+        onPress={() => navigation.navigate('Classify')}
+        activeOpacity={0.85}
+      >
+        <Image source={require("../assets/trash.png")} style={styles.classifyCardImage} />
+        <View style={styles.classifyCardTextBox}>
+          <Text style={styles.classifyCardTitle}>คัดแยกขยะ</Text>
+          <Text style={styles.classifyCardText}>คัดแยกขยะที่คุณต้องการด้วยรูปภาพ</Text>
+        </View>
+        <Ionicons name="chevron-forward" size={24} color="#198754" /> 
+      </TouchableOpacity>
+
     </ScrollView>
   );
 }
@@ -80,46 +83,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#e3f6f5",
     alignItems: "center",
   },
-  classifyCard: {
-    width: '100%',
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    padding: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 70, // ขยับลงมาจากขอบบน
-    marginBottom: 30,
-    shadowColor: "#198754",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 10,
-    elevation: 8,
-  },
-  classifyCardImage: {
-    width: 50,
-    height: 50,
-    marginRight: 15,
-    resizeMode: 'contain',
-  },
-  classifyCardTextBox: {
-    flex: 1, // ทำให้ข้อความขยายเต็มพื้นที่ที่เหลือ
-  },
-  classifyCardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#198754',
-    marginBottom: 3,
-  },
-  classifyCardText: {
-    fontSize: 14,
-    color: '#555',
-  },
-  // จบส่วน Style ของปุ่มใหม่
-
+  // 3. อัปเดต Style ของ Title (เพิ่ม marginTop กลับมา)
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    // marginTop: 70, // (ลบ marginTop เดิม)
+    marginTop: 70, // เพิ่มระยะห่างจากขอบบน
     marginBottom: 30,
     textAlign: "center",
     color: "#198754",
@@ -185,5 +153,40 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#555",
     lineHeight: 22,
+  },
+  // 4. อัปเดต Style ของปุ่ม (เปลี่ยน margin)
+  classifyCard: {
+    width: '100%',
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 0, // ลบระยะห่างด้านบน
+    marginBottom: 30, // เพิ่มระยะห่างด้านล่าง
+    shadowColor: "#198754",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  classifyCardImage: {
+    width: 50,
+    height: 50,
+    marginRight: 15,
+    resizeMode: 'contain',
+  },
+  classifyCardTextBox: {
+    flex: 1, 
+  },
+  classifyCardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#198754',
+    marginBottom: 3,
+  },
+  classifyCardText: {
+    fontSize: 14,
+    color: '#555',
   },
 });

@@ -52,14 +52,17 @@ export default function ClassifyScreen() {
       
       form.append("image", {
         uri: Platform.OS === "android" ? uri : uri.replace("file://", ""),
-        name: filename,
-        type: `image/${ext}`,
+        name: filename || `photo.${ext}`,
+        type: `image/${ext === 'jpg' ? 'jpeg' : ext}`,
       });
 
-      const res = await API.post('/waste', form, {
+      const res = await API.post('/wastes', form, {
           headers: {
-              'Content-Type': 'multipart/form-data',
+              'Accept': 'application/json',
               'Authorization': `Bearer ${user.token}`, 
+          },
+          transformRequest: (data, headers) => {
+              return data; // บังคับให้ส่ง FormData ตรงๆ ไม่ต้องแปลง
           },
       });
 
@@ -72,7 +75,7 @@ export default function ClassifyScreen() {
     } catch (err) {
       console.warn("Upload error", err.response?.data || err);
       setResult(""); 
-      alert('อัปโหลดรูปภาพไม่สำเร็จ');
+      alert('อัปโหลดไม่สำเร็จ: ' + (err.response?.data?.message || "กรุณาลองใหม่"));
     }
   };
 

@@ -45,37 +45,42 @@ export default function ClassifyScreen() {
     try {
       if (!user?.token) return alert("กรุณาล็อกอินก่อน");
 
-      const form = new FormData();
+      // 1. เตรียมข้อมูลรูปภาพ
+      const formData = new FormData();
       const filename = uri.split("/").pop();
       const match = /\.(\w+)$/.exec(filename);
       const ext = match ? match[1] : "jpg";
       
-      form.append("image", {
+      formData.append("image", {
         uri: Platform.OS === "android" ? uri : uri.replace("file://", ""),
         name: filename || `photo.${ext}`,
-        type: `image/${ext === 'jpg' ? 'jpeg' : ext}`,
+        type: `image/${ext === 'jpg' ? 'jpeg' : ext}`, // แปลง type ให้ถูกต้อง
       });
 
-      const res = await API.post('/waste', form, {
-          headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${user.token}`, 
-          },
-          transformRequest: (data, headers) => {
-              return data; // บังคับให้ส่ง FormData ตรงๆ ไม่ต้องแปลง
+      const response = await fetch('https://waste-sorter-backend-api.onrender.com/api/waste', { 
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${user.token}`, 
           },
       });
+      const resData = await response.json();
 
-      if (res.data && res.data.waste_type) {
-        setResult(res.data.waste_type);
+      if (response.ok) {
+        if (resData.waste_type) {
+          setResult(resData.waste_type);
+        } else {
+          setResult("วิเคราะห์สำเร็จ (แต่ไม่มีประเภทระบุ)");
+        }
       } else {
-        setResult("ไม่สามารถวิเคราะห์ได้");
+        // ถ้า Backend ตอบ Error กลับมา
+        throw new Error(resData.message || "Server Error");
       }
 
     } catch (err) {
-      console.warn("Upload error", err.response?.data || err);
+      console.warn("Upload error:", err);
       setResult(""); 
-      alert('อัปโหลดไม่สำเร็จ: ' + (err.response?.data?.message || "กรุณาลองใหม่"));
+      alert('อัปโหลดไม่สำเร็จ: ' + err.message);
     }
   };
 

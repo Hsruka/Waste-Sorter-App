@@ -56,7 +56,7 @@ export default function ClassifyScreen() {
         type: `image/${ext === 'jpg' ? 'jpeg' : ext}`,
       });
 
-      const res = await API.post('/wastes', form, {
+      const res = await API.post('/waste', form, {
           headers: {
               'Accept': 'application/json',
               'Authorization': `Bearer ${user.token}`, 

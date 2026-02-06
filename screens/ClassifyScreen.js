@@ -40,47 +40,51 @@ export default function ClassifyScreen() {
   };
 
   const classifyImage = async (uri) => {
+    console.log("1. เริ่มทำงาน classifyImage");
     setResult("กำลังวิเคราะห์..."); 
 
     try {
+      console.log("2. เช็ค Token:", user?.token);
       if (!user?.token) return alert("กรุณาล็อกอินก่อน");
 
-      // 1. เตรียมข้อมูลรูปภาพ
-      const formData = new FormData();
+      // เตรียมไฟล์
       const filename = uri.split("/").pop();
       const match = /\.(\w+)$/.exec(filename);
       const ext = match ? match[1] : "jpg";
       
+      const formData = new FormData();
       formData.append("image", {
         uri: Platform.OS === "android" ? uri : uri.replace("file://", ""),
         name: filename || `photo.${ext}`,
-        type: `image/${ext === 'jpg' ? 'jpeg' : ext}`, // แปลง type ให้ถูกต้อง
+        type: `image/${ext === 'jpg' ? 'jpeg' : ext}`,
       });
 
+      console.log("3. กำลังจะส่งไปที่ Server...");
+      console.log("URL:", 'https://waste-sorter-backend-api.onrender.com/api/waste'); // เช็ค URL ว่าถูกมั้ย
+
+      // ใช้ fetch
       const response = await fetch('https://waste-sorter-backend-api.onrender.com/api/waste', { 
         method: 'POST',
         body: formData,
         headers: {
-          'Authorization': `Bearer ${user.token}`, 
-          },
+          'Authorization': `Bearer ${user.token}`,
+        },
       });
+
+      console.log("4. Server ตอบกลับมาแล้ว Status:", response.status);
       const resData = await response.json();
+      console.log("5. ข้อมูลที่ได้:", resData);
 
       if (response.ok) {
-        if (resData.waste_type) {
-          setResult(resData.waste_type);
-        } else {
-          setResult("วิเคราะห์สำเร็จ (แต่ไม่มีประเภทระบุ)");
-        }
+        setResult(resData.waste_type || "สำเร็จ (ไม่มี type)");
       } else {
-        // ถ้า Backend ตอบ Error กลับมา
         throw new Error(resData.message || "Server Error");
       }
 
     } catch (err) {
-      console.warn("Upload error:", err);
+      console.log("ERROR!!!!:", err);
       setResult(""); 
-      alert('อัปโหลดไม่สำเร็จ: ' + err.message);
+      alert('เกิดข้อผิดพลาด: ' + err.message);
     }
   };
 
